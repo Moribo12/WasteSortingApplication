@@ -37,7 +37,6 @@ public class CategoryController {
     @PutMapping
     public ResponseEntity<WasteCategory> updateCategory(@RequestBody UpdateCategoryRequestDto updateCategoryRequestDto){
            return new ResponseEntity<>( this.categoryService.updateCategory(updateCategoryRequestDto), HttpStatus.CREATED);
-
     }
 }
 

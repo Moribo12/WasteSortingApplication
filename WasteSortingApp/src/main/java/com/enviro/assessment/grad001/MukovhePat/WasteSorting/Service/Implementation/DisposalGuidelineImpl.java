@@ -1,15 +1,16 @@
 package com.enviro.assessment.grad001.MukovhePat.WasteSorting.Service.Implementation;
 
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Dto.Request.GuidelineRequestDto;
+import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Dto.Request.UpdateGuidelineRequestDto;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Entity.DisposalGuideline;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Entity.WasteCategory;
+import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Exception.*;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Repository.DisposalGuidelineRepo;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Repository.WasteCategoryRepo;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Service.Interface.DisposalGuidelineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class DisposalGuidelineImpl implements DisposalGuidelineService {
     @Override
     public DisposalGuideline createGuideline(GuidelineRequestDto guidelineRequestDto) {
         // Retrieve the WasteCategory from the database based on the categoryId
-        Optional<WasteCategory> optionalCategory = wasteCategoryRepo.findById(guidelineRequestDto.getCategoryId());
+        Optional<WasteCategory> optionalCategory = this.wasteCategoryRepo.findById(guidelineRequestDto.getCategoryId());
 
         if (optionalCategory.isPresent()) {
             WasteCategory category = optionalCategory.get();
@@ -34,31 +35,55 @@ public class DisposalGuidelineImpl implements DisposalGuidelineService {
                     .category(category)
                     .build();
 
-            return disposalGuidelineRepo.save(guideline);
+            return this.disposalGuidelineRepo.save(guideline);
         } else {
-            throw new IllegalArgumentException("Category not found for ID: " + guidelineRequestDto.getCategoryId());
+            throw new CreateGuidelineException("Could not create Guideline due to invalid Category");
         }
     }
 
     @Override
     public List<DisposalGuideline> getAllGuidelines() {
-        return disposalGuidelineRepo.findAll();
+        return this.disposalGuidelineRepo.findAll();
+    }
+
+    @Override
+    public void deleteDisposalGuideline(Long id) {
+        Optional<DisposalGuideline> optionalGuideline = this.disposalGuidelineRepo.findById(id);
+
+        if(optionalGuideline.isPresent()){
+            this.disposalGuidelineRepo.deleteById(id);
+        }else{
+            throw new GuidelineToDeleteException("Delete Unsuccessful !");
+        }
+    }
+
+    @Override
+    public DisposalGuideline updateGuideline(UpdateGuidelineRequestDto UpdateGuidelineRequestDto) {
+        Optional<DisposalGuideline> optionalGuideline = this.disposalGuidelineRepo.findById(UpdateGuidelineRequestDto.getId());
+
+        if (optionalGuideline.isPresent()) {
+            DisposalGuideline existingGuideline = optionalGuideline.get();
+            existingGuideline.setId(UpdateGuidelineRequestDto.getId());
+            existingGuideline.setGuideline(UpdateGuidelineRequestDto.getGuideline());
+
+            return this.disposalGuidelineRepo.save(existingGuideline);
+        } else {
+            throw new GuidelineNotFoundException("Update failed !");
+        }
     }
 
 
     @Override
     public List<DisposalGuideline> getAllGuidelineByName(String categoryName) {
         // Retrieve the WasteCategory by name
-        Optional<WasteCategory> optionalWasteCategory = wasteCategoryRepo.findByCategoryName(categoryName);
+        Optional<WasteCategory> optionalWasteCategory = this.wasteCategoryRepo.findByCategoryName(categoryName);
 
         if (optionalWasteCategory.isPresent()) {
-            WasteCategory wasteCategory = optionalWasteCategory.get();
-
             // Retrieve the disposal guidelines associated with the WasteCategory
-            return disposalGuidelineRepo.findByCategoryName(categoryName);
+            return this.disposalGuidelineRepo.findByCategoryName(categoryName);
         } else {
             // Handle case where WasteCategory with the given name does not exist
-            throw new IllegalArgumentException("Waste category with name '" + categoryName + "' not found.");
+            throw new GuidelineByNameException(" Guidelines for'" + categoryName + "' do not exist.");
         }
     }
 }

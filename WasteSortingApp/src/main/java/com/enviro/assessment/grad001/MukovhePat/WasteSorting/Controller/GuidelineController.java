@@ -1,9 +1,15 @@
 package com.enviro.assessment.grad001.MukovhePat.WasteSorting.Controller;
 
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Dto.Request.GuidelineRequestDto;
+import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Dto.Request.UpdateCategoryRequestDto;
+import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Dto.Request.UpdateGuidelineRequestDto;
+import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Dto.Response.ResponseObject;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Entity.DisposalGuideline;
+import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Entity.WasteCategory;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Service.Interface.DisposalGuidelineService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,17 +22,28 @@ public class GuidelineController {
     private final DisposalGuidelineService disposalGuidelineService;
 
     @PostMapping
-    public DisposalGuideline createGuideline(@RequestBody GuidelineRequestDto guidelineRequestDto){
-        return this.disposalGuidelineService.createGuideline(guidelineRequestDto);
+    public ResponseEntity<DisposalGuideline> createGuideline(@RequestBody GuidelineRequestDto guidelineRequestDto){
+        return new ResponseEntity<>(this.disposalGuidelineService.createGuideline(guidelineRequestDto),HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<DisposalGuideline> getAllGuidelines(){
-        return disposalGuidelineService.getAllGuidelines();
+    public ResponseEntity<List<DisposalGuideline>> getAllGuidelines(){
+        return new ResponseEntity<>(this.disposalGuidelineService.getAllGuidelines(),HttpStatus.OK);
     }
 
     @GetMapping("/{categoryName}")
-    public List<DisposalGuideline> getGuidelinesByName(@PathVariable String categoryName){
-        return disposalGuidelineService.getAllGuidelineByName(categoryName);
+    public ResponseEntity<List<DisposalGuideline>> getGuidelinesByName(@PathVariable String categoryName){
+        return new ResponseEntity<>(this.disposalGuidelineService.getAllGuidelineByName(categoryName),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseObject deleteGuidelineById(@PathVariable Long id){
+        this.disposalGuidelineService.deleteDisposalGuideline(id);
+        return new ResponseObject("Deleted Successfully");
+    }
+
+    @PutMapping
+    public ResponseEntity<DisposalGuideline> updateGuideline(@RequestBody UpdateGuidelineRequestDto updateCategoryRequestDto){
+        return new ResponseEntity<>( this.disposalGuidelineService.updateGuideline(updateCategoryRequestDto), HttpStatus.CREATED);
     }
 }
