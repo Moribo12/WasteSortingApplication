@@ -5,6 +5,7 @@ import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Dto.Request.UpdateR
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Dto.Response.ResponseObject;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Entity.RecyclingTip;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Service.Interface.RecycleTipService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class RecycleTipController {
     private final RecycleTipService recycleTipService;
 
     @PostMapping
-    public ResponseEntity<RecyclingTip> createRecycleTip(@RequestBody RecycleTipRequestDto recycleTipRequestDto){
+    public ResponseEntity<RecyclingTip> createRecycleTip(@Valid @RequestBody RecycleTipRequestDto recycleTipRequestDto){
         return new ResponseEntity<>(this.recycleTipService.createRecycleTip(recycleTipRequestDto), HttpStatus.CREATED) ;
     }
 
@@ -41,7 +42,7 @@ public class RecycleTipController {
     }
 
     @PutMapping
-    public ResponseEntity<RecyclingTip> updateGuideline(@RequestBody UpdateRecycleTipRequestDto updateRecycleTipRequestDto){
+    public ResponseEntity<RecyclingTip> updateGuideline(@Valid @RequestBody UpdateRecycleTipRequestDto updateRecycleTipRequestDto){
         return new ResponseEntity<>( this.recycleTipService.updateRecycleTip(updateRecycleTipRequestDto), HttpStatus.CREATED);
     }
 }

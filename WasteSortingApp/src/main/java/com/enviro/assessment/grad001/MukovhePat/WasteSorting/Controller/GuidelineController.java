@@ -7,6 +7,7 @@ import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Dto.Response.Respon
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Entity.DisposalGuideline;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Entity.WasteCategory;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Service.Interface.DisposalGuidelineService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class GuidelineController {
     private final DisposalGuidelineService disposalGuidelineService;
 
     @PostMapping
-    public ResponseEntity<DisposalGuideline> createGuideline(@RequestBody GuidelineRequestDto guidelineRequestDto){
+    public ResponseEntity<DisposalGuideline> createGuideline(@Valid @RequestBody GuidelineRequestDto guidelineRequestDto){
         return new ResponseEntity<>(this.disposalGuidelineService.createGuideline(guidelineRequestDto),HttpStatus.CREATED);
     }
 
@@ -43,7 +44,7 @@ public class GuidelineController {
     }
 
     @PutMapping
-    public ResponseEntity<DisposalGuideline> updateGuideline(@RequestBody UpdateGuidelineRequestDto updateCategoryRequestDto){
+    public ResponseEntity<DisposalGuideline> updateGuideline(@Valid @RequestBody UpdateGuidelineRequestDto updateCategoryRequestDto){
         return new ResponseEntity<>( this.disposalGuidelineService.updateGuideline(updateCategoryRequestDto), HttpStatus.CREATED);
     }
 }

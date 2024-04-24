@@ -5,6 +5,7 @@ import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Dto.Request.UpdateC
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Dto.Response.ResponseObject;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Entity.WasteCategory;
 import com.enviro.assessment.grad001.MukovhePat.WasteSorting.Service.Interface.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
     @PostMapping
-    public ResponseEntity<WasteCategory> CreateCategory( @RequestBody CategoryRequestDto categoryRequestDto){
+    public ResponseEntity<WasteCategory> CreateCategory( @Valid @RequestBody CategoryRequestDto categoryRequestDto){
         return new ResponseEntity<>( this.categoryService.CreateCategory(categoryRequestDto),HttpStatus.CREATED);
     }
 
@@ -35,7 +36,7 @@ public class CategoryController {
     }
 
     @PutMapping
-    public ResponseEntity<WasteCategory> updateCategory(@RequestBody UpdateCategoryRequestDto updateCategoryRequestDto){
+    public ResponseEntity<WasteCategory> updateCategory(@Valid @RequestBody UpdateCategoryRequestDto updateCategoryRequestDto){
            return new ResponseEntity<>( this.categoryService.updateCategory(updateCategoryRequestDto), HttpStatus.CREATED);
     }
 }
