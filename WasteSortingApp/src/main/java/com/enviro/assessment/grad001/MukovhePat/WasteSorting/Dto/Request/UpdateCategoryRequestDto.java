@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UpdateCategoryRequestDto {
         private Long id;
-        private String name;
+        private String categoryName;
         private String composition;
         private String health_Risks;
 }

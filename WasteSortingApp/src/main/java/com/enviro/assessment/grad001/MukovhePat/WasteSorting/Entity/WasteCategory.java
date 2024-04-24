@@ -15,7 +15,9 @@ public class WasteCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+
+    @Column(name="category_name")
+    private String categoryName;
     private String composition;
     private String health_Risks;
 

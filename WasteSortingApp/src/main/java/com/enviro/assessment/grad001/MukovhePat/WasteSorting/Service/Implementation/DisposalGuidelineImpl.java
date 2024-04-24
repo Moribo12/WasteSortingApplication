@@ -44,36 +44,21 @@ public class DisposalGuidelineImpl implements DisposalGuidelineService {
     public List<DisposalGuideline> getAllGuidelines() {
         return disposalGuidelineRepo.findAll();
     }
-//    @Override
-//    public List<DisposalGuideline> getAllGuidelineByName(String name) {
-//        Optional<WasteCategory> optionalWasteCategory = wasteCategoryRepo.findByCategoryName(name);
-//
-//        List<DisposalGuideline> guidelineList = null;
-//
-//        if (optionalWasteCategory.isPresent()) {
-//            WasteCategory wasteCategory = optionalWasteCategory.get();
-//
-//            List<WasteCategory> wasteCategoryList = new ArrayList<>();
-//            wasteCategoryList.add(wasteCategory);
-//
-//            guidelineList = wasteCategory.getGuidelines();
-//        }
-//        return guidelineList;
-//    }
+
 
     @Override
-    public List<DisposalGuideline> getAllGuidelineByName(String name) {
+    public List<DisposalGuideline> getAllGuidelineByName(String categoryName) {
         // Retrieve the WasteCategory by name
-        Optional<WasteCategory> optionalWasteCategory = wasteCategoryRepo.findByCategoryName(name);
+        Optional<WasteCategory> optionalWasteCategory = wasteCategoryRepo.findByCategoryName(categoryName);
 
         if (optionalWasteCategory.isPresent()) {
             WasteCategory wasteCategory = optionalWasteCategory.get();
 
             // Retrieve the disposal guidelines associated with the WasteCategory
-            return disposalGuidelineRepo.findByCategoryName(name);
+            return disposalGuidelineRepo.findByCategoryName(categoryName);
         } else {
             // Handle case where WasteCategory with the given name does not exist
-            throw new IllegalArgumentException("Waste category with name '" + name + "' not found.");
+            throw new IllegalArgumentException("Waste category with name '" + categoryName + "' not found.");
         }
     }
 }

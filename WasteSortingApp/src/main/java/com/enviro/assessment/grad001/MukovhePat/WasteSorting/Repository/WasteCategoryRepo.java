@@ -8,7 +8,7 @@ import java.util.Optional;
 
 
 public interface WasteCategoryRepo extends JpaRepository<WasteCategory,Long> {
-    @Query(value = "select * from Categories where name = ?1", nativeQuery = true)
-    Optional<WasteCategory> findByCategoryName(String name);
+    @Query(value = "select * from Categories where category_name = ?1", nativeQuery = true)
+    Optional<WasteCategory> findByCategoryName(String categoryName);
 
 }

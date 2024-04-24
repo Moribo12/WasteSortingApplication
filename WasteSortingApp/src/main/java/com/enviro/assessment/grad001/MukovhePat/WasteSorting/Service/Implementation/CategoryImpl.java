@@ -23,11 +23,11 @@ public class CategoryImpl implements CategoryService {
 
     @Override
     public WasteCategory CreateCategory(CategoryRequestDto categoryRequestDto){
-        if(this.wasteCategoryRepo.findByCategoryName(categoryRequestDto.getName()).isPresent()) {
+        if(this.wasteCategoryRepo.findByCategoryName(categoryRequestDto.getCategoryName()).isPresent()) {
           throw new CategoryExistsException("Category already exists");
         }
         WasteCategory wasteCategory = WasteCategory.builder()
-                .name(categoryRequestDto.getName())
+                .categoryName(categoryRequestDto.getCategoryName())
                 .composition(categoryRequestDto.getComposition())
                 .health_Risks(categoryRequestDto.getHealth_Risks())
                 .build();
@@ -56,7 +56,7 @@ public class CategoryImpl implements CategoryService {
 
         if (optionalCategory.isPresent()) {
             WasteCategory existingCategory = optionalCategory.get();
-            existingCategory.setName(updateCategoryRequestDto.getName());
+            existingCategory.setCategoryName(updateCategoryRequestDto.getCategoryName());
             existingCategory.setComposition(updateCategoryRequestDto.getComposition());
             existingCategory.setHealth_Risks(updateCategoryRequestDto.getHealth_Risks());
 

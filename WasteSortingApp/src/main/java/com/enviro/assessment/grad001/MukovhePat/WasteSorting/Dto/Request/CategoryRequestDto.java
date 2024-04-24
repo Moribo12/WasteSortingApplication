@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryRequestDto {
-    private String name;
+    private String categoryName;
     private String composition;
     private String health_Risks;
 }

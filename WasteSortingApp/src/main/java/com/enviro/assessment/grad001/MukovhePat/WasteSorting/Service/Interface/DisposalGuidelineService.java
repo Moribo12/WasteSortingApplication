@@ -8,7 +8,7 @@ import java.util.List;
 public interface DisposalGuidelineService {
 
     public DisposalGuideline createGuideline(GuidelineRequestDto guidelineRequestDto);
-    public List<DisposalGuideline> getAllGuidelineByName(String name);
+    public List<DisposalGuideline> getAllGuidelineByName(String categoryName);
     public List<DisposalGuideline> getAllGuidelines();
 
 }

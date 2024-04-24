@@ -25,8 +25,8 @@ public class GuidelineController {
         return disposalGuidelineService.getAllGuidelines();
     }
 
-    @GetMapping("/{name}")
-    public List<DisposalGuideline> getGuidelinesByName(@PathVariable String name){
-        return disposalGuidelineService.getAllGuidelineByName(name);
+    @GetMapping("/{categoryName}")
+    public List<DisposalGuideline> getGuidelinesByName(@PathVariable String categoryName){
+        return disposalGuidelineService.getAllGuidelineByName(categoryName);
     }
 }
